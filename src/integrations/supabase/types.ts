@@ -194,6 +194,36 @@ export type Database = {
         }
         Relationships: []
       }
+      sales_workflows_configs: {
+        Row: {
+          config_index: number
+          config_label: string | null
+          config_text: string
+          created_at: string | null
+          id: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          config_index: number
+          config_label?: string | null
+          config_text?: string
+          created_at?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          config_index?: number
+          config_label?: string | null
+          config_text?: string
+          created_at?: string | null
+          id?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

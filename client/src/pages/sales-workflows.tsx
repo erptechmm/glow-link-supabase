@@ -7,6 +7,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { FileText, Copy, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 
 // Types for the highlighted text editor
 interface HighlightedTextEditorProps {
@@ -190,6 +192,116 @@ export default function SalesWorkflows() {
   const [step10Copied, setStep10Copied] = useState(false);
   const [step11Copied, setStep11Copied] = useState(false);
   const [step12Copied, setStep12Copied] = useState(false);
+  const [step4Saving, setStep4Saving] = useState(false);
+  const [step5Saving, setStep5Saving] = useState(false);
+  const [step6Saving, setStep6Saving] = useState(false);
+  const [step7Saving, setStep7Saving] = useState(false);
+  const [step8Saving, setStep8Saving] = useState(false);
+  const [step9Saving, setStep9Saving] = useState(false);
+  const [step10Saving, setStep10Saving] = useState(false);
+  const [step11Saving, setStep11Saving] = useState(false);
+  const [step12Saving, setStep12Saving] = useState(false);
+  const [step4Saved, setStep4Saved] = useState(false);
+  const [step5Saved, setStep5Saved] = useState(false);
+  const [step6Saved, setStep6Saved] = useState(false);
+  const [step7Saved, setStep7Saved] = useState(false);
+  const [step8Saved, setStep8Saved] = useState(false);
+  const [step9Saved, setStep9Saved] = useState(false);
+  const [step10Saved, setStep10Saved] = useState(false);
+  const [step11Saved, setStep11Saved] = useState(false);
+  const [step12Saved, setStep12Saved] = useState(false);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    loadConfigs();
+  }, []);
+
+  const loadConfigs = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from('sales_workflows_configs')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('config_index');
+
+    if (error) {
+      console.error('Error loading configs:', error);
+      return;
+    }
+
+    if (data) {
+      data.forEach(config => {
+        switch (config.config_index) {
+          case 4: setStep4(config.config_text); break;
+          case 5: setStep5(config.config_text); break;
+          case 6: setStep6(config.config_text); break;
+          case 7: setStep7(config.config_text); break;
+          case 8: setStep8(config.config_text); break;
+          case 9: setStep9(config.config_text); break;
+          case 10: setStep10(config.config_text); break;
+          case 11: setStep11(config.config_text); break;
+          case 12: setStep12(config.config_text); break;
+        }
+      });
+    }
+  };
+
+  const saveStep = async (stepIndex: number, stepValue: string, setSaving: (val: boolean) => void, setSaved: (val: boolean) => void) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to save",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!stepValue.trim()) {
+      toast({
+        title: "Empty field",
+        description: "Please enter some text before saving",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSaving(true);
+
+    const { error } = await supabase
+      .from('sales_workflows_configs')
+      .upsert({
+        user_id: user.id,
+        config_index: stepIndex,
+        config_text: stepValue,
+      }, {
+        onConflict: 'user_id,config_index'
+      });
+
+    setSaving(false);
+
+    if (error) {
+      console.error('Error saving:', error);
+      toast({
+        title: "Error saving",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setSaved(true);
+    toast({
+      title: "Saved successfully",
+      description: `Step ${stepIndex} has been saved`,
+    });
+
+    setTimeout(() => {
+      setSaved(false);
+    }, 2000);
+  };
 
   const handleInputChange = () => {
     setError("");
@@ -476,31 +588,51 @@ Nick"
                     setStep4(e.target.value);
                     handleInputChange();
                   }}
-                  className="pr-20 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+                  className="pr-40 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                   data-testid="input-step-4"
                 />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(step4);
-                    setStep4Copied(true);
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 px-3 border-gray-300 hover:bg-gray-50"
-                  data-testid="button-copy-step-4"
-                >
-                  {step4Copied ? (
-                    <>
-                      <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
-                      Done
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3 w-3 mr-1" />
-                      Copy
-                    </>
-                  )}
-                </Button>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => saveStep(4, step4, setStep4Saving, setStep4Saved)}
+                    disabled={step4Saving}
+                    className="h-8 px-3"
+                  >
+                    {step4Saving ? (
+                      <>
+                        <div className="h-3 w-3 mr-1 animate-spin rounded-full border-2 border-muted border-t-primary" />
+                        Saving
+                      </>
+                    ) : step4Saved ? (
+                      <>Saved</>
+                    ) : (
+                      <>Save</>
+                    )}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(step4);
+                      setStep4Copied(true);
+                    }}
+                    className="h-8 px-3"
+                    data-testid="button-copy-step-4"
+                  >
+                    {step4Copied ? (
+                      <>
+                        <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
+                        Done
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copy
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -519,31 +651,51 @@ Nick"
                     setStep5(e.target.value);
                     handleInputChange();
                   }}
-                  className="pr-20 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+                  className="pr-40 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                   data-testid="input-step-5"
                 />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(step5);
-                    setStep5Copied(true);
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 px-3 border-gray-300 hover:bg-gray-50"
-                  data-testid="button-copy-step-5"
-                >
-                  {step5Copied ? (
-                    <>
-                      <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
-                      Done
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3 w-3 mr-1" />
-                      Copy
-                    </>
-                  )}
-                </Button>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => saveStep(5, step5, setStep5Saving, setStep5Saved)}
+                    disabled={step5Saving}
+                    className="h-8 px-3"
+                  >
+                    {step5Saving ? (
+                      <>
+                        <div className="h-3 w-3 mr-1 animate-spin rounded-full border-2 border-muted border-t-primary" />
+                        Saving
+                      </>
+                    ) : step5Saved ? (
+                      <>Saved</>
+                    ) : (
+                      <>Save</>
+                    )}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(step5);
+                      setStep5Copied(true);
+                    }}
+                    className="h-8 px-3"
+                    data-testid="button-copy-step-5"
+                  >
+                    {step5Copied ? (
+                      <>
+                        <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
+                        Done
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copy
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -562,31 +714,51 @@ Nick"
                     setStep6(e.target.value);
                     handleInputChange();
                   }}
-                  className="pr-20 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+                  className="pr-40 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                   data-testid="input-step-6"
                 />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(step6);
-                    setStep6Copied(true);
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 px-3 border-gray-300 hover:bg-gray-50"
-                  data-testid="button-copy-step-6"
-                >
-                  {step6Copied ? (
-                    <>
-                      <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
-                      Done
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3 w-3 mr-1" />
-                      Copy
-                    </>
-                  )}
-                </Button>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => saveStep(6, step6, setStep6Saving, setStep6Saved)}
+                    disabled={step6Saving}
+                    className="h-8 px-3"
+                  >
+                    {step6Saving ? (
+                      <>
+                        <div className="h-3 w-3 mr-1 animate-spin rounded-full border-2 border-muted border-t-primary" />
+                        Saving
+                      </>
+                    ) : step6Saved ? (
+                      <>Saved</>
+                    ) : (
+                      <>Save</>
+                    )}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(step6);
+                      setStep6Copied(true);
+                    }}
+                    className="h-8 px-3"
+                    data-testid="button-copy-step-6"
+                  >
+                    {step6Copied ? (
+                      <>
+                        <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
+                        Done
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copy
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -605,31 +777,51 @@ Nick"
                     setStep7(e.target.value);
                     handleInputChange();
                   }}
-                  className="pr-20 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+                  className="pr-40 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                   data-testid="input-step-7"
                 />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(step7);
-                    setStep7Copied(true);
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 px-3 border-gray-300 hover:bg-gray-50"
-                  data-testid="button-copy-step-7"
-                >
-                  {step7Copied ? (
-                    <>
-                      <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
-                      Done
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3 w-3 mr-1" />
-                      Copy
-                    </>
-                  )}
-                </Button>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => saveStep(7, step7, setStep7Saving, setStep7Saved)}
+                    disabled={step7Saving}
+                    className="h-8 px-3"
+                  >
+                    {step7Saving ? (
+                      <>
+                        <div className="h-3 w-3 mr-1 animate-spin rounded-full border-2 border-muted border-t-primary" />
+                        Saving
+                      </>
+                    ) : step7Saved ? (
+                      <>Saved</>
+                    ) : (
+                      <>Save</>
+                    )}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(step7);
+                      setStep7Copied(true);
+                    }}
+                    className="h-8 px-3"
+                    data-testid="button-copy-step-7"
+                  >
+                    {step7Copied ? (
+                      <>
+                        <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
+                        Done
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copy
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -648,31 +840,51 @@ Nick"
                     setStep8(e.target.value);
                     handleInputChange();
                   }}
-                  className="pr-20 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+                  className="pr-40 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                   data-testid="input-step-8"
                 />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(step8);
-                    setStep8Copied(true);
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 px-3 border-gray-300 hover:bg-gray-50"
-                  data-testid="button-copy-step-8"
-                >
-                  {step8Copied ? (
-                    <>
-                      <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
-                      Done
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3 w-3 mr-1" />
-                      Copy
-                    </>
-                  )}
-                </Button>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => saveStep(8, step8, setStep8Saving, setStep8Saved)}
+                    disabled={step8Saving}
+                    className="h-8 px-3"
+                  >
+                    {step8Saving ? (
+                      <>
+                        <div className="h-3 w-3 mr-1 animate-spin rounded-full border-2 border-muted border-t-primary" />
+                        Saving
+                      </>
+                    ) : step8Saved ? (
+                      <>Saved</>
+                    ) : (
+                      <>Save</>
+                    )}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(step8);
+                      setStep8Copied(true);
+                    }}
+                    className="h-8 px-3"
+                    data-testid="button-copy-step-8"
+                  >
+                    {step8Copied ? (
+                      <>
+                        <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
+                        Done
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copy
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -691,31 +903,51 @@ Nick"
                     setStep9(e.target.value);
                     handleInputChange();
                   }}
-                  className="pr-20 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+                  className="pr-40 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                   data-testid="input-step-9"
                 />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(step9);
-                    setStep9Copied(true);
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 px-3 border-gray-300 hover:bg-gray-50"
-                  data-testid="button-copy-step-9"
-                >
-                  {step9Copied ? (
-                    <>
-                      <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
-                      Done
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3 w-3 mr-1" />
-                      Copy
-                    </>
-                  )}
-                </Button>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => saveStep(9, step9, setStep9Saving, setStep9Saved)}
+                    disabled={step9Saving}
+                    className="h-8 px-3"
+                  >
+                    {step9Saving ? (
+                      <>
+                        <div className="h-3 w-3 mr-1 animate-spin rounded-full border-2 border-muted border-t-primary" />
+                        Saving
+                      </>
+                    ) : step9Saved ? (
+                      <>Saved</>
+                    ) : (
+                      <>Save</>
+                    )}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(step9);
+                      setStep9Copied(true);
+                    }}
+                    className="h-8 px-3"
+                    data-testid="button-copy-step-9"
+                  >
+                    {step9Copied ? (
+                      <>
+                        <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
+                        Done
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copy
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -734,31 +966,51 @@ Nick"
                     setStep10(e.target.value);
                     handleInputChange();
                   }}
-                  className="pr-20 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+                  className="pr-40 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                   data-testid="input-step-10"
                 />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(step10);
-                    setStep10Copied(true);
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 px-3 border-gray-300 hover:bg-gray-50"
-                  data-testid="button-copy-step-10"
-                >
-                  {step10Copied ? (
-                    <>
-                      <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
-                      Done
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3 w-3 mr-1" />
-                      Copy
-                    </>
-                  )}
-                </Button>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => saveStep(10, step10, setStep10Saving, setStep10Saved)}
+                    disabled={step10Saving}
+                    className="h-8 px-3"
+                  >
+                    {step10Saving ? (
+                      <>
+                        <div className="h-3 w-3 mr-1 animate-spin rounded-full border-2 border-muted border-t-primary" />
+                        Saving
+                      </>
+                    ) : step10Saved ? (
+                      <>Saved</>
+                    ) : (
+                      <>Save</>
+                    )}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(step10);
+                      setStep10Copied(true);
+                    }}
+                    className="h-8 px-3"
+                    data-testid="button-copy-step-10"
+                  >
+                    {step10Copied ? (
+                      <>
+                        <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
+                        Done
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copy
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -777,31 +1029,51 @@ Nick"
                     setStep11(e.target.value);
                     handleInputChange();
                   }}
-                  className="pr-20 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+                  className="pr-40 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                   data-testid="input-step-11"
                 />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(step11);
-                    setStep11Copied(true);
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 px-3 border-gray-300 hover:bg-gray-50"
-                  data-testid="button-copy-step-11"
-                >
-                  {step11Copied ? (
-                    <>
-                      <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
-                      Done
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3 w-3 mr-1" />
-                      Copy
-                    </>
-                  )}
-                </Button>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => saveStep(11, step11, setStep11Saving, setStep11Saved)}
+                    disabled={step11Saving}
+                    className="h-8 px-3"
+                  >
+                    {step11Saving ? (
+                      <>
+                        <div className="h-3 w-3 mr-1 animate-spin rounded-full border-2 border-muted border-t-primary" />
+                        Saving
+                      </>
+                    ) : step11Saved ? (
+                      <>Saved</>
+                    ) : (
+                      <>Save</>
+                    )}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(step11);
+                      setStep11Copied(true);
+                    }}
+                    className="h-8 px-3"
+                    data-testid="button-copy-step-11"
+                  >
+                    {step11Copied ? (
+                      <>
+                        <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
+                        Done
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copy
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
 
@@ -820,31 +1092,51 @@ Nick"
                     setStep12(e.target.value);
                     handleInputChange();
                   }}
-                  className="pr-20 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
+                  className="pr-40 border-gray-200 focus:border-blue-400 focus:ring-blue-400"
                   data-testid="input-step-12"
                 />
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(step12);
-                    setStep12Copied(true);
-                  }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 px-3 border-gray-300 hover:bg-gray-50"
-                  data-testid="button-copy-step-12"
-                >
-                  {step12Copied ? (
-                    <>
-                      <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
-                      Done
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-3 w-3 mr-1" />
-                      Copy
-                    </>
-                  )}
-                </Button>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={() => saveStep(12, step12, setStep12Saving, setStep12Saved)}
+                    disabled={step12Saving}
+                    className="h-8 px-3"
+                  >
+                    {step12Saving ? (
+                      <>
+                        <div className="h-3 w-3 mr-1 animate-spin rounded-full border-2 border-muted border-t-primary" />
+                        Saving
+                      </>
+                    ) : step12Saved ? (
+                      <>Saved</>
+                    ) : (
+                      <>Save</>
+                    )}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(step12);
+                      setStep12Copied(true);
+                    }}
+                    className="h-8 px-3"
+                    data-testid="button-copy-step-12"
+                  >
+                    {step12Copied ? (
+                      <>
+                        <CheckCircle className="h-3 w-3 mr-1 text-green-600" />
+                        Done
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3 w-3 mr-1" />
+                        Copy
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
 
