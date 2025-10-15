@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton, SidebarInset, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
-import { GitBranch, FileText, Settings, HelpCircle, ChevronRight, LogOut } from "lucide-react";
+import { GitBranch, FileText, Settings, HelpCircle, ChevronRight, LogOut, Home as HomeIcon, Workflow, StickyNote, Zap, Smartphone, Code2, Server, Wrench } from "lucide-react";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -37,42 +37,42 @@ function AppSidebar({
       <SidebarHeader className="bg-sidebar-accent/50 border-b border-sidebar-border">
         <div className="flex items-center justify-between px-4 py-3">
           <h2 className="text-lg font-bold text-sidebar-foreground animate-gradient">Mizu, Min & GoLar</h2>
-          {user && <Button variant="ghost" size="sm" onClick={handleLogout} className="h-8 hover:bg-sidebar-accent hover:text-destructive transition-colors">
-              <LogOut className="h-4 w-4" />
+          {user && <Button variant="ghost" size="sm" onClick={handleLogout} className="h-8 hover:bg-sidebar-accent transition-colors group">
+              <LogOut className="h-4 w-4 text-red-500 group-hover:text-red-600 transition-colors" />
             </Button>}
         </div>
       </SidebarHeader>
       <SidebarContent className="bg-sidebar">
         <SidebarMenu className="gap-1 px-2">
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={location === "/"} className="transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
+            <SidebarMenuButton asChild isActive={location === "/"} className="group transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
               <Link href="/" onClick={() => isMobile && setOpen(false)}>
-                <FileText className="h-4 w-4" />
-                <span className="font-medium">Home</span>
+                <HomeIcon className="h-5 w-5 text-blue-500 group-hover:text-blue-600 transition-colors" />
+                <span className="font-medium group-hover:text-blue-600 transition-colors">Home</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={location === "/git-replace"} className="transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
+            <SidebarMenuButton asChild isActive={location === "/git-replace"} className="group transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
               <Link href="/git-replace" onClick={() => isMobile && setOpen(false)}>
-                <GitBranch className="h-4 w-4" />
-                <span className="font-medium">Git Replace Command</span>
+                <GitBranch className="h-5 w-5 text-emerald-500 group-hover:text-emerald-600 transition-colors" />
+                <span className="font-medium group-hover:text-emerald-600 transition-colors">Git Replace Command</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={location === "/sales-workflows"} className="transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
+            <SidebarMenuButton asChild isActive={location === "/sales-workflows"} className="group transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
               <Link href="/sales-workflows" onClick={() => isMobile && setOpen(false)}>
-                <FileText className="h-4 w-4" />
-                <span className="font-medium">Sales Workflows</span>
+                <Workflow className="h-5 w-5 text-purple-500 group-hover:text-purple-600 transition-colors" />
+                <span className="font-medium group-hover:text-purple-600 transition-colors">Sales Workflows</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => setGeneralOpen(!generalOpen)} isActive={location === "/general"} className="transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
-              <FileText className="h-4 w-4" />
-              <span className="font-medium">General</span>
-              <ChevronRight className={`ml-auto transition-transform duration-200 ${generalOpen ? 'rotate-90' : ''}`} />
+            <SidebarMenuButton onClick={() => setGeneralOpen(!generalOpen)} isActive={location === "/general"} className="group transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
+              <StickyNote className="h-5 w-5 text-amber-500 group-hover:text-amber-600 transition-colors" />
+              <span className="font-medium group-hover:text-amber-600 transition-colors">General</span>
+              <ChevronRight className={`ml-auto transition-transform duration-200 text-amber-500 ${generalOpen ? 'rotate-90' : ''}`} />
             </SidebarMenuButton>
             {generalOpen && <SidebarMenuSub className="ml-4 mt-1 space-y-1 border-l-2 border-sidebar-border pl-2">
                 <SidebarMenuSubItem>
@@ -85,60 +85,66 @@ function AppSidebar({
               </SidebarMenuSub>}
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => setTechWorkflowsOpen(!techWorkflowsOpen)} isActive={location === "/replit-to-vercel" || location === "/lovable-prompts" || location === "/flutter-webview" || location === "/capacitor" || location === "/odoo-hosting" || location === "/odoo-customization"} className="transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
-              <Settings className="h-4 w-4" />
-              <span className="font-medium">Tech Workflows</span>
-              <ChevronRight className={`ml-auto transition-transform duration-200 ${techWorkflowsOpen ? 'rotate-90' : ''}`} />
+            <SidebarMenuButton onClick={() => setTechWorkflowsOpen(!techWorkflowsOpen)} isActive={location === "/replit-to-vercel" || location === "/lovable-prompts" || location === "/flutter-webview" || location === "/capacitor" || location === "/odoo-hosting" || location === "/odoo-customization"} className="group transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
+              <Settings className="h-5 w-5 text-indigo-500 group-hover:text-indigo-600 transition-colors" />
+              <span className="font-medium group-hover:text-indigo-600 transition-colors">Tech Workflows</span>
+              <ChevronRight className={`ml-auto transition-transform duration-200 text-indigo-500 ${techWorkflowsOpen ? 'rotate-90' : ''}`} />
             </SidebarMenuButton>
             {techWorkflowsOpen && <SidebarMenuSub className="ml-4 mt-1 space-y-1 border-l-2 border-sidebar-border pl-2">
                 <SidebarMenuSubItem>
-                  <SidebarMenuSubButton asChild isActive={location === "/lovable-prompts"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
+                  <SidebarMenuSubButton asChild isActive={location === "/lovable-prompts"} className="group transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
                     <Link href="/lovable-prompts" onClick={() => isMobile && setOpen(false)}>
-                      <span className="text-sm">Prompts</span>
+                      <Zap className="h-4 w-4 text-yellow-500 group-hover:text-yellow-600 transition-colors" />
+                      <span className="text-sm group-hover:text-yellow-600 transition-colors">Prompts</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
                 <SidebarMenuSubItem>
-                  <SidebarMenuSubButton asChild isActive={location === "/flutter-webview"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
+                  <SidebarMenuSubButton asChild isActive={location === "/flutter-webview"} className="group transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
                     <Link href="/flutter-webview" onClick={() => isMobile && setOpen(false)}>
-                      <span className="text-sm">Flutter Web View App</span>
+                      <Smartphone className="h-4 w-4 text-sky-500 group-hover:text-sky-600 transition-colors" />
+                      <span className="text-sm group-hover:text-sky-600 transition-colors">Flutter Web View App</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
                 <SidebarMenuSubItem>
-                  <SidebarMenuSubButton asChild isActive={location === "/capacitor"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
+                  <SidebarMenuSubButton asChild isActive={location === "/capacitor"} className="group transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
                     <Link href="/capacitor" onClick={() => isMobile && setOpen(false)}>
-                      <span className="text-sm">Capacitor</span>
+                      <Smartphone className="h-4 w-4 text-cyan-500 group-hover:text-cyan-600 transition-colors" />
+                      <span className="text-sm group-hover:text-cyan-600 transition-colors">Capacitor</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
                 <SidebarMenuSubItem>
-                  <SidebarMenuSubButton asChild isActive={location === "/odoo-hosting"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
+                  <SidebarMenuSubButton asChild isActive={location === "/odoo-hosting"} className="group transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
                     <Link href="/odoo-hosting" onClick={() => isMobile && setOpen(false)}>
-                      <span className="text-sm">Odoo Hosting</span>
+                      <Server className="h-4 w-4 text-rose-500 group-hover:text-rose-600 transition-colors" />
+                      <span className="text-sm group-hover:text-rose-600 transition-colors">Odoo Hosting</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
                 <SidebarMenuSubItem>
-                  <SidebarMenuSubButton asChild isActive={location === "/odoo-customization"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
+                  <SidebarMenuSubButton asChild isActive={location === "/odoo-customization"} className="group transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
                     <Link href="/odoo-customization" onClick={() => isMobile && setOpen(false)}>
-                      <span className="text-sm">Odoo Customization</span>
+                      <Wrench className="h-4 w-4 text-orange-500 group-hover:text-orange-600 transition-colors" />
+                      <span className="text-sm group-hover:text-orange-600 transition-colors">Odoo Customization</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
                 <SidebarMenuSubItem>
-                  <SidebarMenuSubButton asChild isActive={location === "/replit-to-vercel"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
+                  <SidebarMenuSubButton asChild isActive={location === "/replit-to-vercel"} className="group transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
                     <Link href="/replit-to-vercel" onClick={() => isMobile && setOpen(false)}>
-                      <span className="text-sm">Replit Made to Vercel Ready</span>
+                      <Code2 className="h-4 w-4 text-teal-500 group-hover:text-teal-600 transition-colors" />
+                      <span className="text-sm group-hover:text-teal-600 transition-colors">Replit Made to Vercel Ready</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
               </SidebarMenuSub>}
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton className="transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02]">
-              <HelpCircle className="h-4 w-4" />
-              <span className="font-medium">Add-hocs Workflows</span>
+            <SidebarMenuButton className="group transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02]">
+              <HelpCircle className="h-5 w-5 text-pink-500 group-hover:text-pink-600 transition-colors" />
+              <span className="font-medium group-hover:text-pink-600 transition-colors">Add-hocs Workflows</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
