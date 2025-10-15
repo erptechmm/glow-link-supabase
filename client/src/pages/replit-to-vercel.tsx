@@ -276,8 +276,12 @@ export default function ReplitToVercel() {
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    navigator.clipboard.writeText(step2);
-                    setStep2Copied(true);
+                    if (step2Copied) {
+                      setStep2Copied(false);
+                    } else {
+                      navigator.clipboard.writeText(step2);
+                      setStep2Copied(true);
+                    }
                   }}
                   className="absolute right-2 top-4 h-8 px-3 border-gray-300 hover:bg-gray-50"
                   data-testid="button-copy-step-2"
@@ -341,8 +345,12 @@ export default function ReplitToVercel() {
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    navigator.clipboard.writeText(step3);
-                    setStep3Copied(true);
+                    if (step3Copied) {
+                      setStep3Copied(false);
+                    } else {
+                      navigator.clipboard.writeText(step3);
+                      setStep3Copied(true);
+                    }
                   }}
                   className="absolute right-2 top-4 h-8 px-3 border-gray-300 hover:bg-gray-50"
                   data-testid="button-copy-step-3"
@@ -439,8 +447,12 @@ export default function ReplitToVercel() {
                       variant="outline"
                       size="sm"
                       onClick={() => {
-                        navigator.clipboard.writeText(stepValue);
-                        setStepCopied(true);
+                        if (stepCopied) {
+                          setStepCopied(false);
+                        } else {
+                          navigator.clipboard.writeText(stepValue);
+                          setStepCopied(true);
+                        }
                       }}
                       className={`absolute right-2 h-8 px-3 border-gray-300 hover:bg-gray-50 ${stepNum === 4 ? 'top-4' : 'top-1/2 -translate-y-1/2'}`}
                       data-testid={`button-copy-step-${stepNum}`}

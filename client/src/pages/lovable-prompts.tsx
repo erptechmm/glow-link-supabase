@@ -289,8 +289,12 @@ export default function LovablePrompts() {
                         variant="secondary"
                         size="sm"
                         onClick={() => {
-                          navigator.clipboard.writeText(promptValue);
-                          setPromptCopied(promptIndex, true);
+                          if (promptCopied) {
+                            setPromptCopied(promptIndex, false);
+                          } else {
+                            navigator.clipboard.writeText(promptValue);
+                            setPromptCopied(promptIndex, true);
+                          }
                         }}
                         className="h-8 px-3"
                       >

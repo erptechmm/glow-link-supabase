@@ -289,8 +289,12 @@ export default function OdooCustomization() {
                         variant="secondary"
                         size="sm"
                         onClick={() => {
-                          navigator.clipboard.writeText(configValue);
-                          setConfigCopied(configIndex, true);
+                          if (configCopied) {
+                            setConfigCopied(configIndex, false);
+                          } else {
+                            navigator.clipboard.writeText(configValue);
+                            setConfigCopied(configIndex, true);
+                          }
                         }}
                         className="h-8 px-3"
                       >

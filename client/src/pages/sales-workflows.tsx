@@ -348,8 +348,12 @@ export default function SalesWorkflows() {
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    navigator.clipboard.writeText(step1);
-                    setStep1Copied(true);
+                    if (step1Copied) {
+                      setStep1Copied(false);
+                    } else {
+                      navigator.clipboard.writeText(step1);
+                      setStep1Copied(true);
+                    }
                   }}
                   className="absolute right-2 top-1/2 -translate-y-1/2 h-8 px-3 border-gray-300 hover:bg-gray-50"
                   data-testid="button-copy-step-1"
@@ -470,8 +474,12 @@ Nick"
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    navigator.clipboard.writeText(step2);
-                    setStep2Copied(true);
+                    if (step2Copied) {
+                      setStep2Copied(false);
+                    } else {
+                      navigator.clipboard.writeText(step2);
+                      setStep2Copied(true);
+                    }
                   }}
                   className="absolute right-2 top-4 h-8 px-3 border-gray-300 hover:bg-gray-50"
                   data-testid="button-copy-step-2"
@@ -547,8 +555,12 @@ Nick"
                   variant="outline"
                   size="sm"
                   onClick={() => {
-                    navigator.clipboard.writeText(step3);
-                    setStep3Copied(true);
+                    if (step3Copied) {
+                      setStep3Copied(false);
+                    } else {
+                      navigator.clipboard.writeText(step3);
+                      setStep3Copied(true);
+                    }
                   }}
                   className="absolute right-2 top-4 h-8 px-3 border-gray-300 hover:bg-gray-50"
                   data-testid="button-copy-step-3"
@@ -614,8 +626,12 @@ Nick"
                     variant="secondary"
                     size="sm"
                     onClick={() => {
-                      navigator.clipboard.writeText(step4);
-                      setStep4Copied(true);
+                      if (step4Copied) {
+                        setStep4Copied(false);
+                      } else {
+                        navigator.clipboard.writeText(step4);
+                        setStep4Copied(true);
+                      }
                     }}
                     className="h-8 px-3"
                     data-testid="button-copy-step-4"
@@ -677,8 +693,12 @@ Nick"
                     variant="secondary"
                     size="sm"
                     onClick={() => {
-                      navigator.clipboard.writeText(step5);
-                      setStep5Copied(true);
+                      if (step5Copied) {
+                        setStep5Copied(false);
+                      } else {
+                        navigator.clipboard.writeText(step5);
+                        setStep5Copied(true);
+                      }
                     }}
                     className="h-8 px-3"
                     data-testid="button-copy-step-5"
@@ -740,8 +760,12 @@ Nick"
                     variant="secondary"
                     size="sm"
                     onClick={() => {
-                      navigator.clipboard.writeText(step6);
-                      setStep6Copied(true);
+                      if (step6Copied) {
+                        setStep6Copied(false);
+                      } else {
+                        navigator.clipboard.writeText(step6);
+                        setStep6Copied(true);
+                      }
                     }}
                     className="h-8 px-3"
                     data-testid="button-copy-step-6"
@@ -803,8 +827,12 @@ Nick"
                     variant="secondary"
                     size="sm"
                     onClick={() => {
-                      navigator.clipboard.writeText(step7);
-                      setStep7Copied(true);
+                      if (step7Copied) {
+                        setStep7Copied(false);
+                      } else {
+                        navigator.clipboard.writeText(step7);
+                        setStep7Copied(true);
+                      }
                     }}
                     className="h-8 px-3"
                     data-testid="button-copy-step-7"
@@ -866,8 +894,12 @@ Nick"
                     variant="secondary"
                     size="sm"
                     onClick={() => {
-                      navigator.clipboard.writeText(step8);
-                      setStep8Copied(true);
+                      if (step8Copied) {
+                        setStep8Copied(false);
+                      } else {
+                        navigator.clipboard.writeText(step8);
+                        setStep8Copied(true);
+                      }
                     }}
                     className="h-8 px-3"
                     data-testid="button-copy-step-8"
@@ -929,8 +961,12 @@ Nick"
                     variant="secondary"
                     size="sm"
                     onClick={() => {
-                      navigator.clipboard.writeText(step9);
-                      setStep9Copied(true);
+                      if (step9Copied) {
+                        setStep9Copied(false);
+                      } else {
+                        navigator.clipboard.writeText(step9);
+                        setStep9Copied(true);
+                      }
                     }}
                     className="h-8 px-3"
                     data-testid="button-copy-step-9"
@@ -992,8 +1028,12 @@ Nick"
                     variant="secondary"
                     size="sm"
                     onClick={() => {
-                      navigator.clipboard.writeText(step10);
-                      setStep10Copied(true);
+                      if (step10Copied) {
+                        setStep10Copied(false);
+                      } else {
+                        navigator.clipboard.writeText(step10);
+                        setStep10Copied(true);
+                      }
                     }}
                     className="h-8 px-3"
                     data-testid="button-copy-step-10"
@@ -1055,8 +1095,12 @@ Nick"
                     variant="secondary"
                     size="sm"
                     onClick={() => {
-                      navigator.clipboard.writeText(step11);
-                      setStep11Copied(true);
+                      if (step11Copied) {
+                        setStep11Copied(false);
+                      } else {
+                        navigator.clipboard.writeText(step11);
+                        setStep11Copied(true);
+                      }
                     }}
                     className="h-8 px-3"
                     data-testid="button-copy-step-11"
@@ -1118,8 +1162,12 @@ Nick"
                     variant="secondary"
                     size="sm"
                     onClick={() => {
-                      navigator.clipboard.writeText(step12);
-                      setStep12Copied(true);
+                      if (step12Copied) {
+                        setStep12Copied(false);
+                      } else {
+                        navigator.clipboard.writeText(step12);
+                        setStep12Copied(true);
+                      }
                     }}
                     className="h-8 px-3"
                     data-testid="button-copy-step-12"
