@@ -191,7 +191,7 @@ export default function General() {
             <div className="flex items-center space-x-2">
               <FileText className="h-6 w-6 text-primary" />
               <CardTitle className="text-xl font-semibold text-foreground">
-                General Configuration
+                Notes
               </CardTitle>
             </div>
           </CardHeader>

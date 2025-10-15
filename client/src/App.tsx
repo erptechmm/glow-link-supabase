@@ -3,7 +3,7 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton, SidebarInset, SidebarTrigger, useSidebar } from "@/components/ui/sidebar";
 import { GitBranch, FileText, Settings, HelpCircle, ChevronRight, LogOut } from "lucide-react";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,6 +28,7 @@ function AppSidebar({
   const [location, setLocation] = useLocation();
   const [generalOpen, setGeneralOpen] = useState(false);
   const [techWorkflowsOpen, setTechWorkflowsOpen] = useState(false);
+  const { setOpen, isMobile } = useSidebar();
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setLocation("/auth");
@@ -45,7 +46,7 @@ function AppSidebar({
         <SidebarMenu className="gap-1 px-2">
           <SidebarMenuItem>
             <SidebarMenuButton asChild isActive={location === "/"} className="transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
-              <Link href="/">
+              <Link href="/" onClick={() => isMobile && setOpen(false)}>
                 <FileText className="h-4 w-4" />
                 <span className="font-medium">Home</span>
               </Link>
@@ -53,7 +54,7 @@ function AppSidebar({
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild isActive={location === "/git-replace"} className="transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
-              <Link href="/git-replace">
+              <Link href="/git-replace" onClick={() => isMobile && setOpen(false)}>
                 <GitBranch className="h-4 w-4" />
                 <span className="font-medium">Git Replace Command</span>
               </Link>
@@ -61,7 +62,7 @@ function AppSidebar({
           </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton asChild isActive={location === "/sales-workflows"} className="transition-all duration-200 hover:bg-sidebar-accent hover:scale-[1.02] data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:shadow-md">
-              <Link href="/sales-workflows">
+              <Link href="/sales-workflows" onClick={() => isMobile && setOpen(false)}>
                 <FileText className="h-4 w-4" />
                 <span className="font-medium">Sales Workflows</span>
               </Link>
@@ -76,8 +77,8 @@ function AppSidebar({
             {generalOpen && <SidebarMenuSub className="ml-4 mt-1 space-y-1 border-l-2 border-sidebar-border pl-2">
                 <SidebarMenuSubItem>
                   <SidebarMenuSubButton asChild isActive={location === "/general"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
-                    <Link href="/general">
-                      <span className="text-sm">General Config</span>
+                    <Link href="/general" onClick={() => isMobile && setOpen(false)}>
+                      <span className="text-sm">Notes</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
@@ -92,42 +93,42 @@ function AppSidebar({
             {techWorkflowsOpen && <SidebarMenuSub className="ml-4 mt-1 space-y-1 border-l-2 border-sidebar-border pl-2">
                 <SidebarMenuSubItem>
                   <SidebarMenuSubButton asChild isActive={location === "/lovable-prompts"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
-                    <Link href="/lovable-prompts">
-                      <span className="text-sm">Lovable Prompts</span>
+                    <Link href="/lovable-prompts" onClick={() => isMobile && setOpen(false)}>
+                      <span className="text-sm">Prompts</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
                 <SidebarMenuSubItem>
                   <SidebarMenuSubButton asChild isActive={location === "/flutter-webview"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
-                    <Link href="/flutter-webview">
+                    <Link href="/flutter-webview" onClick={() => isMobile && setOpen(false)}>
                       <span className="text-sm">Flutter Web View App</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
                 <SidebarMenuSubItem>
                   <SidebarMenuSubButton asChild isActive={location === "/capacitor"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
-                    <Link href="/capacitor">
+                    <Link href="/capacitor" onClick={() => isMobile && setOpen(false)}>
                       <span className="text-sm">Capacitor</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
                 <SidebarMenuSubItem>
                   <SidebarMenuSubButton asChild isActive={location === "/odoo-hosting"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
-                    <Link href="/odoo-hosting">
+                    <Link href="/odoo-hosting" onClick={() => isMobile && setOpen(false)}>
                       <span className="text-sm">Odoo Hosting</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
                 <SidebarMenuSubItem>
                   <SidebarMenuSubButton asChild isActive={location === "/odoo-customization"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
-                    <Link href="/odoo-customization">
+                    <Link href="/odoo-customization" onClick={() => isMobile && setOpen(false)}>
                       <span className="text-sm">Odoo Customization</span>
                     </Link>
                   </SidebarMenuSubButton>
                 </SidebarMenuSubItem>
                 <SidebarMenuSubItem>
                   <SidebarMenuSubButton asChild isActive={location === "/replit-to-vercel"} className="transition-all duration-200 hover:bg-sidebar-accent/70 data-[active=true]:bg-sidebar-primary data-[active=true]:text-sidebar-primary-foreground data-[active=true]:font-medium data-[active=true]:rounded-md">
-                    <Link href="/replit-to-vercel">
+                    <Link href="/replit-to-vercel" onClick={() => isMobile && setOpen(false)}>
                       <span className="text-sm">Replit Made to Vercel Ready</span>
                     </Link>
                   </SidebarMenuSubButton>

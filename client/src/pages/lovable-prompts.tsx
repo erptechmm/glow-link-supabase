@@ -191,7 +191,7 @@ export default function LovablePrompts() {
             <div className="flex items-center space-x-2">
               <FileText className="h-6 w-6 text-blue-500" />
               <CardTitle className="text-xl font-semibold text-gray-800">
-                Lovable Prompts Configuration
+                Prompts
               </CardTitle>
             </div>
           </CardHeader>
