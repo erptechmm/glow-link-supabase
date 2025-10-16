@@ -96,3 +96,31 @@
     animation: gradient 3s ease-in-out infinite;
   }
 }
+
+@media print {
+  /* Remove fixed heights and allow content to flow naturally on print */
+  textarea,
+  input {
+    min-height: auto !important;
+    max-height: none !important;
+    height: auto !important;
+    overflow: visible !important;
+    page-break-inside: avoid;
+  }
+
+  /* Ensure text wraps properly */
+  textarea {
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+  }
+
+  /* Hide interactive buttons on print */
+  button {
+    display: none !important;
+  }
+
+  /* Ensure proper spacing for printed content */
+  .space-y-6 > * {
+    margin-bottom: 1.5rem;
+  }
+}
