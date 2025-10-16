@@ -5,7 +5,161 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
-import { GitBranch, Copy, AlertTriangle, Info } from "lucide-react";
+import { GitBranch, Copy, AlertTriangle, Info, RefreshCw, User, Key } from "lucide-react";
+
+const COMMON_NAMES = [
+  "rose", "lily", "daisy", "tulip", "orchid", "violet", "iris", "lotus", "poppy", "jasmine",
+  "oak", "pine", "maple", "birch", "willow", "cedar", "elm", "ash", "palm", "sage",
+  "lion", "tiger", "bear", "wolf", "eagle", "hawk", "fox", "deer", "otter", "panda",
+  "swan", "dove", "robin", "finch", "wren", "crow", "blue", "coral", "pearl", "jade",
+  "amber", "ruby", "opal", "crystal", "storm", "cloud", "river", "ocean", "forest", "meadow"
+];
+
+const GeneratorSection = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { toast } = useToast();
+
+  const generateRandomString = (length: number): string => {
+    const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  };
+
+  const generateUsername = (): string => {
+    const name = COMMON_NAMES[Math.floor(Math.random() * COMMON_NAMES.length)];
+    const randomSuffix = generateRandomString(Math.floor(Math.random() * 4) + 2);
+    const username = name + randomSuffix;
+    
+    // Ensure length is between 7-12 characters
+    if (username.length > 12) {
+      return username.substring(0, 12);
+    } else if (username.length < 7) {
+      return username + generateRandomString(7 - username.length);
+    }
+    return username;
+  };
+
+  const generatePassword = (): string => {
+    const timestamp = Date.now().toString();
+    const randomText = generateRandomString(8);
+    return timestamp + randomText;
+  };
+
+  const handleGenerate = () => {
+    const newUsername = generateUsername();
+    const newPassword = generatePassword();
+    setUsername(newUsername);
+    setPassword(newPassword);
+    
+    toast({
+      title: "Generated successfully",
+      description: "New username and password have been created",
+    });
+  };
+
+  const handleCopyUsername = async () => {
+    try {
+      await navigator.clipboard.writeText(username);
+      toast({
+        title: "Copied",
+        description: "Username copied to clipboard",
+      });
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: "Failed to copy username",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleCopyPassword = async () => {
+    try {
+      await navigator.clipboard.writeText(password);
+      toast({
+        title: "Copied",
+        description: "Password copied to clipboard",
+      });
+    } catch (err) {
+      toast({
+        title: "Error",
+        description: "Failed to copy password",
+        variant: "destructive",
+      });
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <Button 
+        onClick={handleGenerate}
+        className="w-full h-12 text-base font-semibold bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 transform hover:scale-[1.02] transition-all duration-200 shadow-lg"
+      >
+        <RefreshCw className="mr-2 h-5 w-5" />
+        Generate Username & Password
+      </Button>
+
+      {username && password && (
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-gray-700 flex items-center">
+              <User className="h-4 w-4 mr-2 text-green-600" />
+              Username
+            </Label>
+            <div className="flex gap-2">
+              <Input
+                value={username}
+                readOnly
+                className="flex-1 bg-gray-50 font-mono"
+              />
+              <Button
+                onClick={handleCopyUsername}
+                variant="outline"
+                size="sm"
+                className="border-2 hover:bg-green-50 hover:border-green-500 transition-colors"
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label className="text-sm font-medium text-gray-700 flex items-center">
+              <Key className="h-4 w-4 mr-2 text-teal-600" />
+              Password
+            </Label>
+            <div className="flex gap-2">
+              <Input
+                value={password}
+                readOnly
+                className="flex-1 bg-gray-50 font-mono"
+              />
+              <Button
+                onClick={handleCopyPassword}
+                variant="outline"
+                size="sm"
+                className="border-2 hover:bg-teal-50 hover:border-teal-500 transition-colors"
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          <Alert className="border-2 border-green-200 bg-gradient-to-r from-green-50 to-teal-50">
+            <Info className="h-4 w-4 text-green-600" />
+            <AlertDescription className="text-green-800 text-sm">
+              The username is generated from common names (7-12 chars) and the password includes a timestamp for uniqueness.
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default function GitReplace() {
   const [targetRepo, setTargetRepo] = useState("");
@@ -208,6 +362,19 @@ git clone ${targetRepo}.git && git clone ${sourceRepo}.git && rsync -av --exclud
             </CardContent>
           </Card>
         )}
+
+        <Card className="mb-6 shadow-lg border-0 bg-white/90 backdrop-blur-sm">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-xl font-semibold text-gray-800 flex items-center">
+              <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+              Generator
+            </CardTitle>
+            <CardDescription>Generate unique usernames and secure passwords</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <GeneratorSection />
+          </CardContent>
+        </Card>
 
         <Card className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 shadow-lg">
           <CardHeader>
