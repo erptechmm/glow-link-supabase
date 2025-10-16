@@ -222,7 +222,10 @@ export default function LovablePrompts() {
                           variant="default"
                           size="sm"
                           onClick={() => saveLabel(promptIndex)}
-                          className="h-7 px-2 bg-purple-600 hover:bg-purple-700 text-white"
+                          className="h-7 px-2 text-white"
+                          style={{ backgroundColor: '#8041CE' }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6d35b8'}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#8041CE'}
                         >
                           <Check className="h-3 w-3 mr-1" />
                           Save
@@ -239,7 +242,7 @@ export default function LovablePrompts() {
                       </>
                     ) : (
                       <>
-                        <Label htmlFor={`prompt-${promptNum}`} className="text-sm font-medium text-purple-700">
+                        <Label htmlFor={`prompt-${promptNum}`} className="text-sm font-medium" style={{ color: '#8041CE' }}>
                           {promptLabels[promptIndex] || `Prompt ${promptNum}`}
                         </Label>
                         <Button
@@ -268,7 +271,10 @@ export default function LovablePrompts() {
                         size="sm"
                         onClick={() => savePrompt(promptIndex)}
                         disabled={promptSaving}
-                        className="h-8 px-3 bg-purple-600 hover:bg-purple-700 text-white disabled:bg-purple-400"
+                        className="h-8 px-3 text-white"
+                        style={{ backgroundColor: promptSaving ? '#9f7aea' : '#8041CE' }}
+                        onMouseEnter={(e) => !promptSaving && (e.currentTarget.style.backgroundColor = '#6d35b8')}
+                        onMouseLeave={(e) => !promptSaving && (e.currentTarget.style.backgroundColor = '#8041CE')}
                       >
                         {promptSaving ? (
                           <>

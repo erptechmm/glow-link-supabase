@@ -195,7 +195,7 @@ export default function ReplitToVercel() {
           <CardContent className="space-y-6">
             {/* Step 2 */}
             <div>
-              <Label htmlFor="step-2" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-2" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Create <span className="text-purple-600 font-semibold">vercel.json</span> file in the root directory with this content
               </Label>
               <div className="relative mt-1.5">
@@ -308,7 +308,7 @@ export default function ReplitToVercel() {
 
             {/* Step 3 */}
             <div>
-              <Label htmlFor="step-3" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-3" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Change your <span className="text-purple-600 font-semibold">scripts section</span> in the root <span className="text-purple-600 font-semibold">package.json</span> to this:
               </Label>
               <div className="relative mt-1.5">
@@ -395,7 +395,7 @@ export default function ReplitToVercel() {
               
               return (
                 <div key={stepNum}>
-                  <Label htmlFor={`step-${stepNum}`} className="text-sm font-medium text-gray-700">
+                  <Label htmlFor={`step-${stepNum}`} className="text-sm font-medium" style={{ color: '#8041CE' }}>
                     {stepNum === 4 ? 'Go to Vercel' : `Step ${stepNum}`}
                   </Label>
                   <div className="relative mt-1.5">

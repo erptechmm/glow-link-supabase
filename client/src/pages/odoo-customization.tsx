@@ -222,7 +222,10 @@ export default function OdooCustomization() {
                           variant="default"
                           size="sm"
                           onClick={() => saveLabel(configIndex)}
-                          className="h-7 px-2"
+                          className="h-7 px-2 text-white"
+                          style={{ backgroundColor: '#8041CE' }}
+                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#6d35b8'}
+                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#8041CE'}
                         >
                           <Check className="h-3 w-3 mr-1" />
                           Save
@@ -239,7 +242,7 @@ export default function OdooCustomization() {
                       </>
                     ) : (
                       <>
-                        <Label htmlFor={`config-${configNum}`} className="text-sm font-medium text-foreground">
+                        <Label htmlFor={`config-${configNum}`} className="text-sm font-medium" style={{ color: '#8041CE' }}>
                           {configLabels[configIndex] || `Config ${configNum}`}
                         </Label>
                         <Button
@@ -268,7 +271,10 @@ export default function OdooCustomization() {
                         size="sm"
                         onClick={() => saveConfig(configIndex)}
                         disabled={configSaving}
-                        className="h-8 px-3"
+                        className="h-8 px-3 text-white"
+                        style={{ backgroundColor: configSaving ? '#9f7aea' : '#8041CE' }}
+                        onMouseEnter={(e) => !configSaving && (e.currentTarget.style.backgroundColor = '#6d35b8')}
+                        onMouseLeave={(e) => !configSaving && (e.currentTarget.style.backgroundColor = '#8041CE')}
                       >
                         {configSaving ? (
                           <>

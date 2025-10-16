@@ -323,7 +323,7 @@ export default function SalesWorkflows() {
           <CardContent className="space-y-6">
             {/* Subject */}
             <div>
-              <Label htmlFor="subject" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="subject" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Subject
               </Label>
               <div className="relative mt-1.5">
@@ -375,7 +375,7 @@ export default function SalesWorkflows() {
 
             {/* Step 2 */}
             <div>
-              <Label htmlFor="step-2" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-2" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Email(General)
               </Label>
               <div className="relative mt-1.5">
@@ -506,7 +506,7 @@ Nick"
 
             {/* Step 3 */}
             <div>
-              <Label htmlFor="step-3" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-3" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Whatsapp(General)
               </Label>
               <div className="relative mt-1.5">
@@ -587,7 +587,7 @@ Nick"
 
             {/* Step 4 */}
             <div>
-              <Label htmlFor="step-4" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-4" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Step 4
               </Label>
               <div className="relative mt-1.5">
@@ -609,7 +609,10 @@ Nick"
                     size="sm"
                     onClick={() => saveStep(4, step4, setStep4Saving, setStep4Saved)}
                     disabled={step4Saving}
-                    className="h-8 px-3"
+                    className="h-8 px-3 text-white"
+                    style={{ backgroundColor: step4Saving ? '#9f7aea' : '#8041CE' }}
+                    onMouseEnter={(e) => !step4Saving && (e.currentTarget.style.backgroundColor = '#6d35b8')}
+                    onMouseLeave={(e) => !step4Saving && (e.currentTarget.style.backgroundColor = '#8041CE')}
                   >
                     {step4Saving ? (
                       <>
@@ -654,7 +657,7 @@ Nick"
 
             {/* Step 5 */}
             <div>
-              <Label htmlFor="step-5" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-5" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Step 5
               </Label>
               <div className="relative mt-1.5">
@@ -676,7 +679,10 @@ Nick"
                     size="sm"
                     onClick={() => saveStep(5, step5, setStep5Saving, setStep5Saved)}
                     disabled={step5Saving}
-                    className="h-8 px-3"
+                    className="h-8 px-3 text-white"
+                    style={{ backgroundColor: step5Saving ? '#9f7aea' : '#8041CE' }}
+                    onMouseEnter={(e) => !step5Saving && (e.currentTarget.style.backgroundColor = '#6d35b8')}
+                    onMouseLeave={(e) => !step5Saving && (e.currentTarget.style.backgroundColor = '#8041CE')}
                   >
                     {step5Saving ? (
                       <>
@@ -721,7 +727,7 @@ Nick"
 
             {/* Step 6 */}
             <div>
-              <Label htmlFor="step-6" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-6" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Step 6
               </Label>
               <div className="relative mt-1.5">
@@ -743,7 +749,10 @@ Nick"
                     size="sm"
                     onClick={() => saveStep(6, step6, setStep6Saving, setStep6Saved)}
                     disabled={step6Saving}
-                    className="h-8 px-3"
+                    className="h-8 px-3 text-white"
+                    style={{ backgroundColor: step6Saving ? '#9f7aea' : '#8041CE' }}
+                    onMouseEnter={(e) => !step6Saving && (e.currentTarget.style.backgroundColor = '#6d35b8')}
+                    onMouseLeave={(e) => !step6Saving && (e.currentTarget.style.backgroundColor = '#8041CE')}
                   >
                     {step6Saving ? (
                       <>
@@ -788,7 +797,7 @@ Nick"
 
             {/* Step 7 */}
             <div>
-              <Label htmlFor="step-7" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-7" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Step 7
               </Label>
               <div className="relative mt-1.5">
@@ -810,7 +819,10 @@ Nick"
                     size="sm"
                     onClick={() => saveStep(7, step7, setStep7Saving, setStep7Saved)}
                     disabled={step7Saving}
-                    className="h-8 px-3"
+                    className="h-8 px-3 text-white"
+                    style={{ backgroundColor: step7Saving ? '#9f7aea' : '#8041CE' }}
+                    onMouseEnter={(e) => !step7Saving && (e.currentTarget.style.backgroundColor = '#6d35b8')}
+                    onMouseLeave={(e) => !step7Saving && (e.currentTarget.style.backgroundColor = '#8041CE')}
                   >
                     {step7Saving ? (
                       <>
@@ -855,7 +867,7 @@ Nick"
 
             {/* Step 8 */}
             <div>
-              <Label htmlFor="step-8" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-8" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Step 8
               </Label>
               <div className="relative mt-1.5">
@@ -877,7 +889,10 @@ Nick"
                     size="sm"
                     onClick={() => saveStep(8, step8, setStep8Saving, setStep8Saved)}
                     disabled={step8Saving}
-                    className="h-8 px-3"
+                    className="h-8 px-3 text-white"
+                    style={{ backgroundColor: step8Saving ? '#9f7aea' : '#8041CE' }}
+                    onMouseEnter={(e) => !step8Saving && (e.currentTarget.style.backgroundColor = '#6d35b8')}
+                    onMouseLeave={(e) => !step8Saving && (e.currentTarget.style.backgroundColor = '#8041CE')}
                   >
                     {step8Saving ? (
                       <>
@@ -922,7 +937,7 @@ Nick"
 
             {/* Step 9 */}
             <div>
-              <Label htmlFor="step-9" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-9" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Step 9
               </Label>
               <div className="relative mt-1.5">
@@ -944,7 +959,10 @@ Nick"
                     size="sm"
                     onClick={() => saveStep(9, step9, setStep9Saving, setStep9Saved)}
                     disabled={step9Saving}
-                    className="h-8 px-3"
+                    className="h-8 px-3 text-white"
+                    style={{ backgroundColor: step9Saving ? '#9f7aea' : '#8041CE' }}
+                    onMouseEnter={(e) => !step9Saving && (e.currentTarget.style.backgroundColor = '#6d35b8')}
+                    onMouseLeave={(e) => !step9Saving && (e.currentTarget.style.backgroundColor = '#8041CE')}
                   >
                     {step9Saving ? (
                       <>
@@ -989,7 +1007,7 @@ Nick"
 
             {/* Step 10 */}
             <div>
-              <Label htmlFor="step-10" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-10" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Step 10
               </Label>
               <div className="relative mt-1.5">
@@ -1011,7 +1029,10 @@ Nick"
                     size="sm"
                     onClick={() => saveStep(10, step10, setStep10Saving, setStep10Saved)}
                     disabled={step10Saving}
-                    className="h-8 px-3"
+                    className="h-8 px-3 text-white"
+                    style={{ backgroundColor: step10Saving ? '#9f7aea' : '#8041CE' }}
+                    onMouseEnter={(e) => !step10Saving && (e.currentTarget.style.backgroundColor = '#6d35b8')}
+                    onMouseLeave={(e) => !step10Saving && (e.currentTarget.style.backgroundColor = '#8041CE')}
                   >
                     {step10Saving ? (
                       <>
@@ -1056,7 +1077,7 @@ Nick"
 
             {/* Step 11 */}
             <div>
-              <Label htmlFor="step-11" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-11" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Step 11
               </Label>
               <div className="relative mt-1.5">
@@ -1078,7 +1099,10 @@ Nick"
                     size="sm"
                     onClick={() => saveStep(11, step11, setStep11Saving, setStep11Saved)}
                     disabled={step11Saving}
-                    className="h-8 px-3"
+                    className="h-8 px-3 text-white"
+                    style={{ backgroundColor: step11Saving ? '#9f7aea' : '#8041CE' }}
+                    onMouseEnter={(e) => !step11Saving && (e.currentTarget.style.backgroundColor = '#6d35b8')}
+                    onMouseLeave={(e) => !step11Saving && (e.currentTarget.style.backgroundColor = '#8041CE')}
                   >
                     {step11Saving ? (
                       <>
@@ -1123,7 +1147,7 @@ Nick"
 
             {/* Step 12 */}
             <div>
-              <Label htmlFor="step-12" className="text-sm font-medium text-gray-700">
+              <Label htmlFor="step-12" className="text-sm font-medium" style={{ color: '#8041CE' }}>
                 Step 12
               </Label>
               <div className="relative mt-1.5">
@@ -1145,7 +1169,10 @@ Nick"
                     size="sm"
                     onClick={() => saveStep(12, step12, setStep12Saving, setStep12Saved)}
                     disabled={step12Saving}
-                    className="h-8 px-3"
+                    className="h-8 px-3 text-white"
+                    style={{ backgroundColor: step12Saving ? '#9f7aea' : '#8041CE' }}
+                    onMouseEnter={(e) => !step12Saving && (e.currentTarget.style.backgroundColor = '#6d35b8')}
+                    onMouseLeave={(e) => !step12Saving && (e.currentTarget.style.backgroundColor = '#8041CE')}
                   >
                     {step12Saving ? (
                       <>
